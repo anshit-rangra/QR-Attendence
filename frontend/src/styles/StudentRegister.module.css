@@ -1,0 +1,250 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e6f7ff 0%, #b3e0ff 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.registerCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2);
+  padding: 30px;
+  width: 100%;
+  max-width: 500px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  text-align: center;
+  color: #0066cc;
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #0066cc, #4da6ff);
+  border-radius: 2px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 500;
+  color: #0066cc;
+  font-size: 16px;
+}
+
+.input, .select {
+  padding: 12px 15px;
+  border: 2px solid #cce6ff;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input:focus, .select:focus {
+  border-color: #4da6ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+}
+
+.subjectInputContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.subjectInput {
+  flex: 1;
+  padding: 12px 15px;
+  border: 2px solid #cce6ff;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.subjectInput:focus {
+  border-color: #4da6ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+}
+
+.addButton {
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.addButton:hover {
+  background: #0052a3;
+  transform: translateY(-2px);
+}
+
+.subjectList {
+  margin-top: 10px;
+  padding: 15px;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  border: 1px solid #cce6ff;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.addedSubjectsTitle {
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  color: #0066cc;
+  font-size: 14px;
+}
+
+.subjectUl {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subjectItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #cce6ff;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.subjectCode {
+  font-weight: 500;
+  color: #0066cc;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.removeButton:hover {
+  background-color: #ffe6e6;
+  transform: scale(1.1);
+}
+
+.submitButton {
+  background: linear-gradient(to right, #0066cc, #4da6ff);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.3);
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 102, 204, 0.4);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registerCard {
+    padding: 20px;
+  }
+  
+  .subjectInputContainer {
+    flex-direction: column;
+  }
+  
+  .addButton {
+    padding: 10px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .registerCard {
+    padding: 15px;
+  }
+  
+  .input, .subjectInput, .addButton, .submitButton {
+    padding: 10px;
+  }
+}

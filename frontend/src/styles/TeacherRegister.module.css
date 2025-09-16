@@ -1,0 +1,170 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e6f0ff 0%, #c9e2ff 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.registerCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 82, 204, 0.15);
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  animation: fadeIn 0.5s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.registerCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 82, 204, 0.2);
+}
+
+.title {
+  text-align: center;
+  color: #0066cc;
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #0066cc, #00aaff);
+  border-radius: 3px;
+  animation: expandLine 0.8s ease-out;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 500;
+  color: #334d6e;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.input {
+  padding: 14px 16px;
+  border: 1px solid #ccdfff;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: #f8fbff;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+  background-color: white;
+  transform: translateY(-2px);
+}
+
+.input::placeholder {
+  color: #a0b4d0;
+}
+
+.submitButton {
+  background: linear-gradient(to right, #0066cc, #0088ff);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.25);
+}
+
+.submitButton:hover {
+  background: linear-gradient(to right, #0052a3, #0066cc);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 102, 204, 0.35);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.25);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expandLine {
+  from {
+    width: 0;
+  }
+  to {
+    width: 60px;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registerCard {
+    padding: 25px;
+    max-width: 400px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .registerCard {
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .title {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .input {
+    padding: 12px 14px;
+  }
+  
+  .submitButton {
+    padding: 14px;
+  }
+}
