@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import styles from '../../styles/StudentRegister.module.css';
-import { registerUser } from '../../api/axios';
+import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
+import styles from '../../../styles/StudentRegister.module.css';
+import { registerStudent } from '../../../api/axios';
 
 const StudentRegister = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    rollNo: '',
+    id: '',
     name: '',
     course: '',
     subjects: [],
@@ -43,27 +46,35 @@ const StudentRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData)
-    const response = await registerUser(formData)
+    const response = await registerStudent(formData)
     console.log(response)
     alert(response.data.message);
     if(response.status === 201){
-        window.location.reload()
+      navigate("/admin")
     }
-    
+  };
+
+  const handleBack = () => {
+    navigate('/admin'); // Go back to previous page
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.registerCard}>
+        {/* Back Button with Icon */}
+        <button className={styles.backButton} onClick={handleBack}>
+          <FaArrowLeft className={styles.backIcon} />
+        </button>
+        
         <h1 className={styles.title}>Student Registration</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>
-            <label htmlFor="rollNo" className={styles.label}>Roll Number</label>
+            <label htmlFor="id" className={styles.label}>Roll Number</label>
             <input
               type="text"
-              id="rollNo"
-              name="rollNo"
-              value={formData.rollNo}
+              id="id"
+              name="id"
+              value={formData.id}
               onChange={handleInputChange}
               className={styles.input}
               required

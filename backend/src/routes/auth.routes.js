@@ -3,19 +3,21 @@ const authControllers = require("../controllers/auth.controller");
 
 const router = express.Router();
 
+// admin routes
+
+router.route("/admin/register").post(authControllers.registerAdmin)
+
+router.route("/admin/login").post(authControllers.loginAdmin)
+
 // user routes 
 
-router.route("/user/register").post(authControllers.registerUser);
 
 router.route("/user/login").post(authControllers.loginUser);
 
-// teacher routes
-
-router.route("/teacher/register").post(authControllers.registerTeacher);
-
-router.route("/teacher/login").post(authControllers.loginTeacher);
 
 // both routes
+
+router.route("/getuser").get(authControllers.getUser)
 
 router.route("/logout").post(authControllers.logout);
 

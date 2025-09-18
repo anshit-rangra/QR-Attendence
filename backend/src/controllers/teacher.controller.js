@@ -1,12 +1,12 @@
 const QRCode = require("qrcode");
 const {v4 : uuidv4} = require("uuid");
-const { setKey } = require("../dao/redis.opr");
+const { setKey, deleteKey } = require("../dao/redis.opr");
 const classModel = require("../models/class.model");
 const AttendanceModel = require("../models/attendance.model");
 
 const generateQR = async (req, res) => {
 
-  const subject = req.user.subject;
+  const subject = req.query.code
    const code = uuidv4();
 
   if (!subject) {
@@ -43,9 +43,28 @@ const generateQR = async (req, res) => {
   }
 };
 
+const deleteQR = async (req, res) => {
+  const qrCode = req.query.code;
+
+  try {
+     await deleteKey(qrCode)
+
+    res.status(200).json({message: "Key deleted sucessfully"})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const getClassAttendance = async (req, res) => {
+  const subject = req.query.code || ""
+  
 try {
-  const {_id} = await classModel.findOne({code: req.user.subject})
+  const {_id} = await classModel.findOne({code: subject}) || await classModel.create({
+      code: subject,
+      ref: req.user._id
+    })
+ 
+  
   const classData = await AttendanceModel.find({ref: _id})
 
   return res.json({classData: classData})
@@ -57,6 +76,7 @@ try {
 
 module.exports = {
   generateQR,
-  getClassAttendance
+  getClassAttendance,
+  deleteQR
 };
 

@@ -30,4 +30,9 @@ const getKey = async (key) => {
   return await client.get(key);
 };
 
-module.exports = { setKey, getKey };
+const deleteKey = async(key) => {
+  const client = await initClient()
+  return await client.del(key)
+}
+
+module.exports = { setKey, getKey, deleteKey };

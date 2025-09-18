@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { FaQrcode, FaCalendarAlt, FaUserCheck, FaUserTimes, FaChartBar } from 'react-icons/fa';
 import { Html5QrcodeScanner } from 'html5-qrcode';
-import styles from '../styles/UserDashboard.module.css';
-import { attendClass, attendClasses } from '../api/axios';
+import styles from '../../styles/UserDashboard.module.css';
+import { attendClass, attendClasses } from '../../api/axios';
 
 const UserDashboard = () => {
-  const [selectedDate, setSelectedDate] = useState('2025-09-16');
+  const today = new Date().toISOString().split("T")[0];
+  const [selectedDate, setSelectedDate] = useState(today);
   const [showScanner, setShowScanner] = useState(false);
   const [scanResult, setScanResult] = useState('');
   const [cameraError, setCameraError] = useState('');

@@ -1,9 +1,9 @@
 .container {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #e6f7ff 0%, #b3e0ff 100%);
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -11,44 +11,50 @@
 .registerCard {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 123, 255, 0.15);
   padding: 30px;
   width: 100%;
-  max-width: 500px;
-  animation: fadeIn 0.5s ease-out;
+  max-width: 450px;
+  position: relative;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.backButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #e6f7ff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+}
+
+.backButton:hover {
+  background: #007bff;
+  color: white;
+  transform: translateX(-3px);
+}
+
+.backIcon {
+  width: 20px;
+  height: 20px;
 }
 
 .title {
   text-align: center;
-  color: #0066cc;
+  color: #0071e3;
   margin-bottom: 25px;
-  font-size: 28px;
   font-weight: 600;
-  position: relative;
-  padding-bottom: 10px;
-}
-
-.title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(to right, #0066cc, #4da6ff);
-  border-radius: 2px;
+  font-size: 28px;
+  padding-top: 10px;
 }
 
 .form {
@@ -60,27 +66,31 @@
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .label {
   font-weight: 500;
-  color: #0066cc;
+  margin-bottom: 8px;
+  color: #0056b3;
   font-size: 16px;
 }
 
-.input, .select {
-  padding: 12px 15px;
-  border: 2px solid #cce6ff;
+.input {
+  padding: 14px 16px;
+  border: 2px solid #c2e0ff;
   border-radius: 8px;
   font-size: 16px;
-  transition: all 0.3s ease;
-  outline: none;
+  transition: all 0.3s;
+  background-color: #f8fbff;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.input:focus, .select:focus {
-  border-color: #4da6ff;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+.input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  background-color: #ffffff;
 }
 
 .subjectInputContainer {
@@ -90,60 +100,46 @@
 
 .subjectInput {
   flex: 1;
-  padding: 12px 15px;
-  border: 2px solid #cce6ff;
+  padding: 14px 16px;
+  border: 2px solid #c2e0ff;
   border-radius: 8px;
   font-size: 16px;
-  transition: all 0.3s ease;
-  outline: none;
+  transition: all 0.3s;
+  background-color: #f8fbff;
 }
 
 .subjectInput:focus {
-  border-color: #4da6ff;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  background-color: #ffffff;
 }
 
 .addButton {
-  background: #0066cc;
+  background: #007bff;
   color: white;
   border: none;
-  padding: 0 20px;
   border-radius: 8px;
+  padding: 0 16px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
+  white-space: nowrap;
 }
 
 .addButton:hover {
-  background: #0052a3;
-  transform: translateY(-2px);
+  background: #0069d9;
 }
 
 .subjectList {
   margin-top: 10px;
-  padding: 15px;
-  background-color: #f0f8ff;
-  border-radius: 8px;
-  border: 1px solid #cce6ff;
-  animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .addedSubjectsTitle {
-  margin: 0 0 10px 0;
-  font-weight: 600;
-  color: #0066cc;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #0056b3;
   font-size: 14px;
 }
 
@@ -160,23 +156,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
-  background-color: white;
-  border-radius: 6px;
-  border: 1px solid #cce6ff;
-  animation: fadeIn 0.3s ease-out;
+  background: #e6f7ff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #c2e0ff;
 }
 
 .subjectCode {
   font-weight: 500;
-  color: #0066cc;
 }
 
 .removeButton {
   background: none;
   border: none;
-  color: #ff4d4d;
-  font-size: 18px;
+  color: #ff4d4f;
+  font-size: 20px;
   cursor: pointer;
   padding: 0;
   width: 24px;
@@ -185,41 +179,50 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
 
 .removeButton:hover {
-  background-color: #ffe6e6;
-  transform: scale(1.1);
+  background: #ff4d4f;
+  color: white;
 }
 
 .submitButton {
-  background: linear-gradient(to right, #0066cc, #4da6ff);
+  background: linear-gradient(to right, #007bff, #0062cc);
   color: white;
   border: none;
-  padding: 14px;
   border-radius: 8px;
+  padding: 16px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   margin-top: 10px;
-  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
 }
 
 .submitButton:hover {
+  background: linear-gradient(to right, #0069d9, #005cbf);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 102, 204, 0.4);
+  box-shadow: 0 7px 14px rgba(0, 123, 255, 0.4);
 }
 
 .submitButton:active {
   transform: translateY(0);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive design */
+@media (max-width: 500px) {
   .registerCard {
-    padding: 20px;
+    padding: 25px 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .input, .subjectInput {
+    padding: 12px 14px;
   }
   
   .subjectInputContainer {
@@ -227,24 +230,10 @@
   }
   
   .addButton {
-    padding: 10px;
+    padding: 12px;
   }
   
-  .title {
-    font-size: 24px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 10px;
-  }
-  
-  .registerCard {
-    padding: 15px;
-  }
-  
-  .input, .subjectInput, .addButton, .submitButton {
-    padding: 10px;
+  .submitButton {
+    padding: 14px;
   }
 }

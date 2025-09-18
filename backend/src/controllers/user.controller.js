@@ -7,7 +7,7 @@ const attendanceServe = async (req, res) => {
     const { subject, code, classRef } = req.body;
     const key = await getKey(subject);
     
-    const {subjects} = await userModel.findOne({rollNo: req.user.rollNo})
+    const {subjects} = await userModel.findOne({id: req.user.id})
 
     for(let i of subjects){
         if(i === subject) break;
@@ -22,7 +22,7 @@ const attendanceServe = async (req, res) => {
     // One of the great bug , user can scan multiple time until qr is valid. Fixing that in future 
 
     const response = await AttendanceModel.create({
-        studentId: req.user.rollNo,
+        studentId: req.user.id,
         subject,
         status: "present",
         ref: classRef
@@ -34,7 +34,7 @@ const attendanceServe = async (req, res) => {
 const getAttendance = async (req, res) => {
     try {
         
-        const attendanceData = await AttendanceModel.find({studentId: req.user.rollNo})
+        const attendanceData = await AttendanceModel.find({studentId: req.user.id})
         res.json({attendanceData:attendanceData})
     } catch (error) {
         console.log(error)

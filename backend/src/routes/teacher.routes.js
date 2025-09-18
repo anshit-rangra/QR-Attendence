@@ -8,4 +8,6 @@ router.route("/generate-qr").get(teacherController.generateQR);
 
 router.route("/get-class").get(teacherController.getClassAttendance)
 
+router.route("/delete-qr").post(teacherController.deleteQR)
+
 module.exports = router;

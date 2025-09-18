@@ -1,9 +1,9 @@
 .container {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #e6f0ff 0%, #c9e2ff 100%);
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -11,40 +11,51 @@
 .registerCard {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 82, 204, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 123, 255, 0.15);
   padding: 30px;
   width: 100%;
   max-width: 450px;
-  animation: fadeIn 0.5s ease-out;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
 
-.registerCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 82, 204, 0.2);
+.backButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #e6f7ff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+}
+
+.backButton:hover {
+  background: #007bff;
+  color: white;
+  transform: translateX(-3px);
+}
+
+.backIcon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 .title {
   text-align: center;
-  color: #0066cc;
+  color: #0071e3;
   margin-bottom: 25px;
-  font-size: 28px;
   font-weight: 600;
-  position: relative;
-  padding-bottom: 10px;
-}
-
-.title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(to right, #0066cc, #00aaff);
-  border-radius: 3px;
-  animation: expandLine 0.8s ease-out;
+  font-size: 28px;
+  padding-top: 10px;
 }
 
 .form {
@@ -56,112 +67,141 @@
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .label {
   font-weight: 500;
-  color: #334d6e;
-  font-size: 14px;
-  transition: color 0.3s ease;
+  margin-bottom: 8px;
+  color: #0056b3;
+  font-size: 16px;
 }
 
 .input {
   padding: 14px 16px;
-  border: 1px solid #ccdfff;
+  border: 2px solid #c2e0ff;
   border-radius: 8px;
   font-size: 16px;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   background-color: #f8fbff;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input:focus {
   outline: none;
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
-  background-color: white;
-  transform: translateY(-2px);
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  background-color: #ffffff;
 }
 
 .input::placeholder {
-  color: #a0b4d0;
+  color: #a0c5ef;
+}
+
+.subjectInputContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.addButton {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.addButton:hover {
+  background: #0069d9;
+}
+
+.subjectsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.subjectItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e6f7ff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #c2e0ff;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.removeButton:hover {
+  background: #ff4d4f;
+  color: white;
 }
 
 .submitButton {
-  background: linear-gradient(to right, #0066cc, #0088ff);
+  background: linear-gradient(to right, #007bff, #0062cc);
   color: white;
   border: none;
-  padding: 15px;
   border-radius: 8px;
-  font-size: 16px;
+  padding: 16px;
+  font-size: 18px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   margin-top: 10px;
-  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.25);
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
 }
 
 .submitButton:hover {
-  background: linear-gradient(to right, #0052a3, #0066cc);
+  background: linear-gradient(to right, #0069d9, #005cbf);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 102, 204, 0.35);
+  box-shadow: 0 7px 14px rgba(0, 123, 255, 0.4);
 }
 
 .submitButton:active {
   transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.25);
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes expandLine {
-  from {
-    width: 0;
-  }
-  to {
-    width: 60px;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive design */
+@media (max-width: 500px) {
   .registerCard {
-    padding: 25px;
-    max-width: 400px;
+    padding: 25px 20px;
   }
   
   .title {
     font-size: 24px;
   }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 15px;
-  }
-  
-  .registerCard {
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  .title {
-    font-size: 22px;
-    margin-bottom: 20px;
-  }
   
   .input {
     padding: 12px 14px;
+  }
+  
+  .subjectInputContainer {
+    flex-direction: column;
+  }
+  
+  .addButton {
+    padding: 12px;
   }
   
   .submitButton {

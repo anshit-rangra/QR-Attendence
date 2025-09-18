@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styles from '../../styles/StudentLogin.module.css';
 import { loginUser } from '../../api/axios';
+import { NavLink } from 'react-router-dom';
 
 const StudentLogin = () => {
   const [loginData, setLoginData] = useState({
-    rollNo: '',
+    id: '',
     password: ''
   });
 
@@ -19,6 +20,7 @@ const StudentLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await loginUser(loginData)
+    
     alert(response.data.message);
     if(response.status === 200){
         window.location.reload()
@@ -29,19 +31,19 @@ const StudentLogin = () => {
   return (
     <div className={styles.container}>
       <div className={styles.loginCard}>
-        <h1 className={styles.title}>Student Login</h1>
+        <h1 className={styles.title}>Login</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>
-            <label htmlFor="rollNo" className={styles.label}>Roll Number</label>
+            <label htmlFor="id" className={styles.label}>ID</label>
             <input
               type="text"
-              id="rollNo"
-              name="rollNo"
-              value={loginData.rollNo}
+              id="id"
+              name="id"
+              value={loginData.id}
               onChange={handleInputChange}
               className={styles.input}
               required
-              placeholder="Enter your roll number"
+              placeholder="Enter your id here"
             />
           </div>
 
@@ -73,7 +75,7 @@ const StudentLogin = () => {
           </button>
 
           <div className={styles.registerPrompt}>
-            <p>Don't have an account? <a href="#register" className={styles.registerLink}>Register here</a></p>
+            <p>Are you Admin ? <NavLink to="/admin/login" className={styles.registerLink}>Login here</NavLink></p>
           </div>
         </form>
       </div>

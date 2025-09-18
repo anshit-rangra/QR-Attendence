@@ -1,29 +1,35 @@
 // TeacherDashboard.jsx
 import React, { useEffect, useState } from 'react';
-import { FaQrcode, FaCalendarAlt, FaUserCheck, FaUserTimes, FaChartBar } from 'react-icons/fa';
-import styles from '../styles/TeacherDashboard.module.css';
-import { generateQR, getClass } from '../api/axios';
+import { FaQrcode, FaCalendarAlt, FaUserCheck, FaUserTimes, FaChartBar, FaTimes } from 'react-icons/fa';
+import styles from '../../styles/TeacherDashboard.module.css';
+import { deleteQR, generateQR, getClass, getUser } from '../../api/axios';
 
 const TeacherDashboard = () => {
-  const [selectedDate, setSelectedDate] = useState('2025-09-16');
+  const today = new Date().toISOString().split("T")[0];
+  const [selectedDate, setSelectedDate] = useState(today);
   const [qrCode, setQrCode] = useState(null);
-  const [classData ,  setClassData] = useState([])
+  const [classData, setClassData] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState("");
 
-useEffect(() => {
-    async function getClassData(){
-        const response = await getClass();
-        
-        setClassData(response.data.classData || [])
+  useEffect(() => {
+    async function getClassData() {
+      const response = await getUser();
+      setSubjects(response.data.user.subjects);
+      setSelectedSubject(response.data.user.subjects[0] || "");
+      const dataClass = await getClass(response.data.user.subjects[0]);
+      setClassData(dataClass.data.classData || []);
     }
-    getClassData()
-},[])
-  
+    getClassData();
+  }, []);
 
-
-  // Filter data by selected date
+  // Filter data by selected date and subject
   const filteredData = classData?.filter(item => {
     const itemDate = new Date(item.date).toISOString().split('T')[0];
-    return itemDate === selectedDate;
+    const dateMatches = itemDate === selectedDate;
+    const subjectMatches = selectedSubject === 'all' || item.subject === selectedSubject;
+    
+    return dateMatches && subjectMatches;
   });
 
   // Count attendance stats
@@ -32,17 +38,25 @@ useEffect(() => {
   const totalStudents = filteredData.length;
   const attendanceRate = totalStudents > 0 ? Math.round((presentCount / totalStudents) * 100) : 0;
 
-  // Generate QR code (mock function)
+  // Generate QR code
   const generateQRCode = async () => {
+    const response = await generateQR(selectedSubject);
     
-    const response = await generateQR()
-    
-    if(response.status === 201){
+    if (response.status === 201) {
+      setQrCode(response.data.qrImage);
+    } else {
+      console.log(response.message);
+      alert("QR code did not generate");
+    }
+  };
 
-      setQrCode(response.data.qrImage)
-    }else {
-      console.log(response.message)
-      alert("QR code did not generate")
+  // Deactivate QR code
+  const deactivateQRCode = async() => {
+    const response = await deleteQR(selectedSubject)
+
+    if(response.status === 200){
+      setQrCode(null);
+      alert("QR code deactivate sucessfully")
     }
 
   };
@@ -51,14 +65,29 @@ useEffect(() => {
     <div className={styles.dashboard}>
       <header className={styles.header}>
         <h1>Teacher Dashboard</h1>
-        <div className={styles.dateSelector}>
-          <FaCalendarAlt className={styles.icon} />
-          <input 
-            type="date" 
-            value={selectedDate} 
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className={styles.dateInput}
-          />
+        <div className={styles.controls}>
+          <div className={styles.dateSelector}>
+            <FaCalendarAlt className={styles.icon} />
+            <input 
+              type="date" 
+              value={selectedDate} 
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className={styles.dateInput}
+            />
+          </div>
+          <div className={styles.subjectSelector}>
+            <select 
+              value={selectedSubject} 
+              onChange={(e) => setSelectedSubject(e.target.value)}
+              className={styles.subjectDropdown}
+            >
+              {subjects.map((subject, index) => (
+                <option key={index} value={subject}>
+                  {subject === 'all' ? 'All Subjects' : subject}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </header>
 
@@ -76,9 +105,16 @@ useEffect(() => {
                 </div>
               )}
             </div>
-            <button onClick={generateQRCode} className={styles.generateButton}>
-              Generate QR Code
-            </button>
+            <div className={styles.qrButtons}>
+              <button onClick={generateQRCode} className={styles.generateButton}>
+                Generate QR Code
+              </button>
+              {qrCode && (
+                <button onClick={deactivateQRCode} className={styles.deactivateButton}>
+                  <FaTimes /> Deactivate QR
+                </button>
+              )}
+            </div>
           </div>
 
           <div className={styles.stats}>
@@ -117,6 +153,7 @@ useEffect(() => {
 
         <div className={styles.rightPanel}>
           <h2>Attendance Records for {new Date(selectedDate).toLocaleDateString()}</h2>
+          {selectedSubject !== 'all' && <p>Subject: {selectedSubject}</p>}
           <div className={styles.attendanceTable}>
             <table>
               <thead>

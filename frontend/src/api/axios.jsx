@@ -6,9 +6,9 @@ const instance = axios.create({
     headers: { "Content-Type": "application/json" }
 })
 
-export const registerUser = async (data) => {
+export const registerStudent = async (data) => {
     try {
-    const response = await instance.post("/auth/user/register", data, { withCredentials: true })
+    const response = await instance.post("/admin/student/register", data, { withCredentials: true })
     return response
         
     } catch (error) {
@@ -24,13 +24,13 @@ export const loginUser = async (data) => {
         
     } catch (error) {
         const {response } = error;
-        return response.data
+        return response
     }
 }
 
 export const registerTeacher = async (data) => {
     try {
-    const response = await instance.post("/auth/teacher/register", data, { withCredentials: true })
+    const response = await instance.post("/admin/teacher/register", data, { withCredentials: true })
     return response
         
     } catch (error) {
@@ -39,20 +39,11 @@ export const registerTeacher = async (data) => {
     }
 }
 
-export const loginTeacher = async (data) => {
-    try {
-    const response = await instance.post("/auth/teacher/login", data, { withCredentials: true })
-    return response
-        
-    } catch (error) {
-        const {response } = error;
-        return response.data
-    }
-}
 
-export const getClass = async () => {
+
+export const getClass = async (subject) => {
     try {
-        const response = await instance.get("/teacher/get-class",{}, {withCredentials: true})
+        const response = await instance.get(`/teacher/get-class?code=${subject}`,{}, {withCredentials: true})
         return response
     } catch (error) {
         const {response} = error;
@@ -60,9 +51,29 @@ export const getClass = async () => {
     }
 }
 
-export const generateQR = async () => {
+export const getUser = async () => {
     try {
-        const response = await instance.get("/teacher/generate-qr",{}, {withCredentials: true})
+        const response = await instance.get("/auth/getuser",{}, {withCredentials: true})
+        return response
+    } catch (error) {
+        const {response} = error;
+        return response
+    }
+}
+
+export const generateQR = async (subject) => {
+    try {
+        const response = await instance.get(`/teacher/generate-qr?code=${subject}`,{}, {withCredentials: true})
+        return response
+    } catch (error) {
+        const {response} = error;
+        return response.data
+    }
+}
+
+export const deleteQR = async (code) => {
+    try {
+        const response = await instance.post(`/teacher/delete-qr?code=${code}`,{}, {withCredentials: true})
         return response
     } catch (error) {
         const {response} = error;
@@ -87,5 +98,16 @@ export const attendClasses = async () => {
     } catch (error) {
         const {response} = error;
         return response.data
+    }
+}
+
+
+export const adminLogin = async (data) => {
+    try {
+        const response = await instance.post('/auth/admin/login', data, {withCredentials: true})
+        return response
+    } catch (error) {
+        const {response} = error;
+        return response
     }
 }
