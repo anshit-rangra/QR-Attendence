@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import styles from '../../styles/StudentLogin.module.css';
 import { loginUser } from '../../api/axios';
 import { NavLink } from 'react-router-dom';
+import Loader from '../../components/Loader'
 
 const StudentLogin = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [loginData, setLoginData] = useState({
     id: '',
     password: ''
@@ -19,7 +21,10 @@ const StudentLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setIsLoading(true)
     const response = await loginUser(loginData)
+    setIsLoading(false)
     
     alert(response.data.message);
     if(response.status === 200){
@@ -27,6 +32,8 @@ const StudentLogin = () => {
     }
     
   };
+
+  if(isLoading) return <Loader />
 
   return (
     <div className={styles.container}>

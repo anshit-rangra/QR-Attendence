@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://qr-attendence-by5k.onrender.com/api/',
+    baseURL: 'http://localhost:3002/api/',
     withCredentials: true,
     headers: { "Content-Type": "application/json" }
 })
@@ -105,6 +105,16 @@ export const attendClasses = async () => {
 export const adminLogin = async (data) => {
     try {
         const response = await instance.post('/auth/admin/login', data, {withCredentials: true})
+        return response
+    } catch (error) {
+        const {response} = error;
+        return response
+    }
+}
+
+export const adminRegister = async (data) => {
+    try {
+        const response = await instance.post('/auth/admin/register', data, {withCredentials: true})
         return response
     } catch (error) {
         const {response} = error;

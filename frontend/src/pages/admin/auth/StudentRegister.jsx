@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import styles from '../../../styles/StudentRegister.module.css';
 import { registerStudent } from '../../../api/axios';
+import Loader from '../../../components/Loader';
 
 const StudentRegister = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -46,7 +48,10 @@ const StudentRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData)
+
+    setIsLoading(true)
     const response = await registerStudent(formData)
+    setIsLoading(false)
     console.log(response)
     alert(response.data.message);
     if(response.status === 201){
@@ -57,6 +62,8 @@ const StudentRegister = () => {
   const handleBack = () => {
     navigate('/admin'); // Go back to previous page
   };
+
+  if(isLoading) return <Loader />
 
   return (
     <div className={styles.container}>

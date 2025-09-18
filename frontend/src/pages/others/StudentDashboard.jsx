@@ -4,6 +4,7 @@ import { FaQrcode, FaCalendarAlt, FaUserCheck, FaUserTimes, FaChartBar } from 'r
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import styles from '../../styles/UserDashboard.module.css';
 import { attendClass, attendClasses } from '../../api/axios';
+import Loader from '../../components/Loader'
 
 const UserDashboard = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -12,11 +13,14 @@ const UserDashboard = () => {
   const [scanResult, setScanResult] = useState('');
   const [cameraError, setCameraError] = useState('');
   const [attendanceData, setAttendanceData] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     async function getData() {
+      setIsLoading(true)
       const response = await attendClasses()
       setAttendanceData(response.data.attendanceData)
+      setIsLoading(false)
     }
     getData()
   }, [])
@@ -63,7 +67,9 @@ const UserDashboard = () => {
             setShowScanner(false);
             html5QrcodeScanner.clear();
             
+            setIsLoading(true)
             const response = await attendClass(decodedText)
+            setIsLoading(false)
             if(response.status === 200){
             alert(response.data.message);
             window.location.reload()
@@ -107,6 +113,8 @@ const UserDashboard = () => {
   const closeScanner = () => {
     setShowScanner(false);
   };
+
+  if(isLoading) return <Loader />
 
   return (
     <div className={styles.dashboard}>

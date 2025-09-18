@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import styles from '../../styles/AddSubject.module.css';
 import { useNavigate } from 'react-router-dom';
 import { createSubject } from '../../api/axios';
+import Loader from '../../components/Loader'
 
 const AddSubject = () => {
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     code: '',
     name: ''
@@ -22,7 +24,9 @@ const AddSubject = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     // Handle form submission here
+    setIsLoading(true)
     const response = await createSubject(formData)
+    setIsLoading(false)
     if(response.status === 201){
         alert("Subject created sucessfully")
         navigate("/admin")
@@ -37,6 +41,8 @@ const AddSubject = () => {
     // Handle back navigation
     navigate("/admin")
   };
+
+  if (isLoading) return <Loader />
 
   return (
     <div className={styles.container}>

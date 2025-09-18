@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import styles from '../../styles/AdminLogin.module.css';
 import { NavLink } from 'react-router-dom';
 import { adminLogin } from '../../api/axios';
+import Loader from '../../components/Loader'
 
 const AdminLogin = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -22,13 +24,17 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    setIsLoading(true)
     const response = await adminLogin(formData)
+    setIsLoading(false)
     
     if(response.status === 200){
       window.location.reload()
     }
     alert(response.data.message)
   };
+
+  if(isLoading) return <Loader />
 
   return (
     <div className={styles.container}>

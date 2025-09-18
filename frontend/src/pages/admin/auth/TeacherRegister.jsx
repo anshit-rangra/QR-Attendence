@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import styles from '../../../styles/TeacherRegister.module.css';
 import { useNavigate } from 'react-router-dom';
 import { registerTeacher } from '../../../api/axios';
+import Loader from '../../../components/Loader'
 
 const TeacherRegister = () => {
   const navigate = useNavigate();
+  const [isLoading , setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     id: '',
     password: '',
@@ -55,12 +57,18 @@ const TeacherRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setIsLoading(true)
     const response = await registerTeacher(formData)
+    setIsLoading(false)
+    
     alert(response.data.message || "Error occur !!")
     if(response.status === 201){
       navigate("/admin")
     }
   };
+
+  if(isLoading) return <Loader />
 
   return (
     <div className={styles.container}>

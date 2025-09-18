@@ -2,8 +2,11 @@
 import React, { useState } from 'react';
 import styles from '../../styles/AdminRegister.module.css';
 import { NavLink } from 'react-router-dom';
+import Loader from '../../components/Loader'
+
 
 const AdminRegister = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     email: '',
     center: '',
@@ -20,12 +23,21 @@ const AdminRegister = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registration Data:', formData);
-    // Here you would typically send the data to your backend
-    alert('Registration submitted! (Check console for data)');
+    setIsLoading(true)
+    const response = await AdminRegister(formData)
+    setIsLoading(false)
+
+    if(response.status === 201){
+      alert("Admin register sucessfully")
+      window.location.reload()
+    }else {
+      alert("Something went wrong")
+    }
   };
+
+  if(isLoading) return <Loader />
 
   return (
     <div className={styles.container}>

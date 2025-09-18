@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import LogoutButton from './components/Logout'
 import AddSubject from './pages/admin/AddSubject'
+import Loader from './components/Loader'
 
 // Lazy-loaded pages
 const UserLogin = lazy(() => import('./pages/auth/UserLogin'))
@@ -22,7 +23,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
       {  (window.location.pathname === "/login" || window.location.pathname === "/register" || window.location.pathname === "/admin/login") ? "" : <LogoutButton /> }
         <Routes>
           <Route path="/login" element={ token ? <Navigate to={'/student'} /> : <UserLogin /> } /> ✅

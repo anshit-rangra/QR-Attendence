@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FaQrcode, FaCalendarAlt, FaUserCheck, FaUserTimes, FaChartBar, FaTimes } from 'react-icons/fa';
 import styles from '../../styles/TeacherDashboard.module.css';
 import { deleteQR, generateQR, getClass, getUser } from '../../api/axios';
+import Loader from '../../components/Loader'
 
 const TeacherDashboard = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -11,14 +12,17 @@ const TeacherDashboard = () => {
   const [classData, setClassData] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     async function getClassData() {
+      setIsLoading(true)
       const response = await getUser();
       setSubjects(response.data.user.subjects);
       setSelectedSubject(response.data.user.subjects[0] || "");
       const dataClass = await getClass(response.data.user.subjects[0]);
       setClassData(dataClass.data.classData || []);
+      setIsLoading(false) 
     }
     getClassData();
   }, []);
@@ -41,7 +45,9 @@ const TeacherDashboard = () => {
 
   // Generate QR code
   const generateQRCode = async () => {
+    setIsLoading(true)
     const response = await generateQR(selectedSubject);
+    setIsLoading(false)
     
     if (response.status === 201) {
       setQrCode(response.data.qrImage);
@@ -53,7 +59,9 @@ const TeacherDashboard = () => {
 
   // Deactivate QR code
   const deactivateQRCode = async() => {
+    setIsLoading(true)
     const response = await deleteQR(selectedSubject)
+    setIsLoading(false)
 
     if(response.status === 200){
       setQrCode(null);
@@ -66,10 +74,14 @@ const TeacherDashboard = () => {
   const handleSubject = async (e) => {
     
     setSelectedSubject(e.target.value)
+    setIsLoading(true)
     const dataClass = await getClass(e.target.value);
+    setIsLoading(false)
     console.log(dataClass.data.classData)
     setClassData(dataClass.data.classData || []);
   }
+
+  if(isLoading) return <Loader />
 
   return (
     <div className={styles.dashboard}>
