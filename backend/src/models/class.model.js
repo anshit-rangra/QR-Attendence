@@ -5,9 +5,13 @@ const classSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  name:{
+    type: String,
+    required: true
+  },
   ref: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Teacher',
+    ref: 'admins',
     required: true,
   },
 }, { timestamps: true });

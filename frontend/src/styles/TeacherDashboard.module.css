@@ -109,7 +109,6 @@
 
 .rightPanel {
   flex: 2;
-  min-width: 500px;
   background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
   border-radius: 12px;
   padding: 25px;
@@ -370,7 +369,7 @@
   }
   
   .leftPanel, .rightPanel {
-    min-width: 100%;
+    width: 100%;
   }
   
   .statCards {

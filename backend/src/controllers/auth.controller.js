@@ -1,4 +1,4 @@
-const UserModel = require("../models/user.model");
+const studentModel = require("../models/student.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const TeacherModel = require("../models/teacher.model");
@@ -11,7 +11,7 @@ const getUser = async (req, res) => {
   const tokenData = jwt.verify(token, process.env.JWT_SECRET)
   
   try {
-    const user = await UserModel.findOne({_id : tokenData._id}) || await TeacherModel.findOne({_id : tokenData._id}) || await adminModel.findOne({_id : tokenData._id})
+    const user = await studentModel.findOne({_id : tokenData._id}) || await TeacherModel.findOne({_id : tokenData._id}) || await adminModel.findOne({_id : tokenData._id})
 
     
     res.json({user})
@@ -23,7 +23,7 @@ const getUser = async (req, res) => {
 const registerStudent = async (req, res) => {
   const { id, name, course, subjects, password } = req.body;
 
-  const userExists = await UserModel.findOne({ id });
+  const userExists = await studentModel.findOne({ id });
 
   if (userExists) {
     return res.status(400).json({message:"User already exists"});
@@ -32,7 +32,7 @@ const registerStudent = async (req, res) => {
   const hashPassword = await bcrypt.hash(password, 10)
 
   try {
-    const newUser = await UserModel.create({
+    const newUser = await studentModel.create({
       id,
       name,
       course,
@@ -50,7 +50,7 @@ const registerStudent = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { id, password } = req.body;
-    const user = await UserModel.findOne({ id }).select("+password") || await TeacherModel.findOne({ id }).select("+password");
+    const user = await studentModel.findOne({ id }).select("+password") || await TeacherModel.findOne({ id }).select("+password");
 
   if (!user) {
     return res.status(404).json({ message: "User not found" });
@@ -111,7 +111,7 @@ const registerAdmin = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10)
     const admin = await adminModel.create({email, center, phone, password:hashPassword})
 
-    const token = jwt.sign({_id: admin._id , email: admin.email, center: admin.center }, process.env.JWT_SECRET, { expiresIn: "30d" });
+    const token = jwt.sign({_id: admin._id , email: admin.email, center: admin.center, role:"admin" }, process.env.JWT_SECRET, { expiresIn: "30d" });
 
     res.cookie("admin", token, {secure: false})
     res.cookie("role", "admin", {secure: false})
@@ -135,7 +135,7 @@ const loginAdmin = async (req, res) => {
     
 
     const comparePassword = await bcrypt.compare(password, userExists.password).then(() => {
-      const token = jwt.sign({ _id: userExists._id, email: userExists.email, center: userExists.center }, process.env.JWT_SECRET, { expiresIn: "30d" });
+      const token = jwt.sign({ _id: userExists._id, email: userExists.email, center: userExists.center , role:"admin"}, process.env.JWT_SECRET, { expiresIn: "30d" });
 
       res.cookie("admin", token, {secure: false})
       res.cookie("role", "admin", {secure: false})

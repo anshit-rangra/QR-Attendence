@@ -1,6 +1,8 @@
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import LogoutButton from './components/Logout'
+import AddSubject from './pages/admin/AddSubject'
 
 // Lazy-loaded pages
 const UserLogin = lazy(() => import('./pages/auth/UserLogin'))
@@ -16,10 +18,12 @@ const StudentRegister = lazy(() => import("./pages/admin/auth/StudentRegister"))
 const App = () => {
   const token = Cookies.get('attendanceToken') || Cookies.get("admin")
   const role = Cookies.get('role')
+  
 
   return (
     <BrowserRouter>
       <Suspense fallback={<div>Loading...</div>}>
+      {  (window.location.pathname === "/login" || window.location.pathname === "/register" || window.location.pathname === "/admin/login") ? "" : <LogoutButton /> }
         <Routes>
           <Route path="/login" element={ token ? <Navigate to={'/student'} /> : <UserLogin /> } /> ✅
 
@@ -36,6 +40,7 @@ const App = () => {
 
           <Route path='/register/student' element={(token && (role === 'admin')) ? <StudentRegister /> : <Navigate to={'/user'} /> }  />
           <Route path='/register/teacher' element={(token && (role === 'admin')) ? <TeacherRegister /> : <Navigate to={'/user'} /> }  />
+          <Route path='/create/subject' element={(token && (role === 'admin')) ? <AddSubject /> : <Navigate to={'/user'} /> }  />
 
 
 

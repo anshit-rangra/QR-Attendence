@@ -44,7 +44,7 @@ const AdminDashboard = () => {
             Add New Student
           </button>
           
-          <button className={styles.primaryButton}>
+          <button onClick={() => navigate('/create/subject')} className={styles.primaryButton}>
             <span className={styles.buttonIcon}>+</span>
             Add New Subject
           </button>

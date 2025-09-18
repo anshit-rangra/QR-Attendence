@@ -111,3 +111,13 @@ export const adminLogin = async (data) => {
         return response
     }
 }
+
+export const createSubject = async (data) => {
+    try {
+        const response = await instance.post('/admin/create/class', data, {withCredentials: true})
+        return response
+    } catch (error) {
+        const {response} = error;
+        return response
+    }
+}

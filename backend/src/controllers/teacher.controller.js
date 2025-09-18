@@ -3,6 +3,8 @@ const {v4 : uuidv4} = require("uuid");
 const { setKey, deleteKey } = require("../dao/redis.opr");
 const classModel = require("../models/class.model");
 const AttendanceModel = require("../models/attendance.model");
+const studentModel = require("../models/student.model");
+const ClassModel = require("../models/class.model");
 
 const generateQR = async (req, res) => {
 
@@ -15,14 +17,8 @@ const generateQR = async (req, res) => {
 
   try {
 
-    let  response = await classModel.findOne({ code: subject });
-    if(!response){
-      response = await classModel.create({
-      code: subject,
-      ref: req.user._id
-    })  // create class in mongodb database
-  }
-     
+    const  response = await classModel.findOne({ code: subject });
+        
   
     const payload = {
       subject,
@@ -47,7 +43,38 @@ const deleteQR = async (req, res) => {
   const qrCode = req.query.code;
 
   try {
+    const students = await studentModel.find({subjects:qrCode})
+    
+const currentDate = new Date(); // abhi ka time
+const tenMinutesAgo = new Date(currentDate.getTime() - 10 * 60 * 1000);
+
+const presentStudents = await AttendanceModel.find({
+  subject: qrCode,
+  date: { $gte: tenMinutesAgo, $lte: currentDate },
+  status: 'present'
+});
+
+const presentIds = presentStudents.map(s => s.studentId.toString());
+
+
+// 4. Filter absent students (all details remain intact)
+const absentStudents = students.filter(stu => {
+  return !presentIds.includes(stu.id)
+
+})
+
+
+const klass = await classModel.findOne({ code: qrCode })
+
+
+const absentsData = absentStudents.map((student) => {
+  return { studentId : student.id, name: student.name , subject: qrCode, status: 'absent', ref: klass._id }
+})
+
+    
      await deleteKey(qrCode)
+    
+    await AttendanceModel.insertMany(absentsData)
 
     res.status(200).json({message: "Key deleted sucessfully"})
   } catch (error) {
@@ -59,18 +86,14 @@ const getClassAttendance = async (req, res) => {
   const subject = req.query.code || ""
   
 try {
-  const {_id} = await classModel.findOne({code: subject}) || await classModel.create({
-      code: subject,
-      ref: req.user._id
-    })
+  const {_id} = await classModel.findOne({code: subject}) 
  
-  
   const classData = await AttendanceModel.find({ref: _id})
 
   return res.json({classData: classData})
 } catch (error) {
   console.log(error)
-  res.json({message: "Error comes here"})
+  res.json({message: "There is no class"})
 }
 }
 

@@ -38,6 +38,7 @@ const TeacherDashboard = () => {
   const totalStudents = filteredData.length;
   const attendanceRate = totalStudents > 0 ? Math.round((presentCount / totalStudents) * 100) : 0;
 
+
   // Generate QR code
   const generateQRCode = async () => {
     const response = await generateQR(selectedSubject);
@@ -57,9 +58,18 @@ const TeacherDashboard = () => {
     if(response.status === 200){
       setQrCode(null);
       alert("QR code deactivate sucessfully")
+      window.location.reload()
     }
 
   };
+
+  const handleSubject = async (e) => {
+    
+    setSelectedSubject(e.target.value)
+    const dataClass = await getClass(e.target.value);
+    console.log(dataClass.data.classData)
+    setClassData(dataClass.data.classData || []);
+  }
 
   return (
     <div className={styles.dashboard}>
@@ -78,7 +88,7 @@ const TeacherDashboard = () => {
           <div className={styles.subjectSelector}>
             <select 
               value={selectedSubject} 
-              onChange={(e) => setSelectedSubject(e.target.value)}
+              onChange={handleSubject}
               className={styles.subjectDropdown}
             >
               {subjects.map((subject, index) => (
@@ -159,6 +169,7 @@ const TeacherDashboard = () => {
               <thead>
                 <tr>
                   <th>Student ID</th>
+                  <th>Name</th>
                   <th>Subject</th>
                   <th>Status</th>
                   <th>Time</th>
@@ -169,6 +180,7 @@ const TeacherDashboard = () => {
                   filteredData.map((record) => (
                     <tr key={record._id}>
                       <td>{record.studentId}</td>
+                      <td>{record.name}</td>
                       <td>{record.subject}</td>
                       <td>
                         <span className={`${styles.status} ${styles[record.status]}`}>
@@ -180,7 +192,7 @@ const TeacherDashboard = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className={styles.noData}>No attendance records for this date</td>
+                    <td colSpan="5" className={styles.noData}>No attendance records for this date</td>
                   </tr>
                 )}
               </tbody>

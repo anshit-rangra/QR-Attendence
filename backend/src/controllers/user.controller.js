@@ -1,13 +1,13 @@
 const { getKey } = require("../dao/redis.opr");
 const AttendanceModel = require("../models/attendance.model");
-const userModel = require("../models/user.model")
+const studentModel = require("../models/student.model")
 
 
 const attendanceServe = async (req, res) => {
     const { subject, code, classRef } = req.body;
     const key = await getKey(subject);
     
-    const {subjects} = await userModel.findOne({id: req.user.id})
+    const {subjects} = await studentModel.findOne({id: req.user.id})
 
     for(let i of subjects){
         if(i === subject) break;
@@ -21,8 +21,10 @@ const attendanceServe = async (req, res) => {
     
     // One of the great bug , user can scan multiple time until qr is valid. Fixing that in future 
 
+    
     const response = await AttendanceModel.create({
         studentId: req.user.id,
+        name: req.user.name,
         subject,
         status: "present",
         ref: classRef

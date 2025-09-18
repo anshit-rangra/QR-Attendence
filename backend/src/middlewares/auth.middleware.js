@@ -51,6 +51,7 @@ const adminMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
         const { role } = decoded;
         if (role !== 'admin') {
             return res.status(403).json({ message: "Forbidden" });
