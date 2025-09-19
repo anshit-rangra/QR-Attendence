@@ -9,10 +9,11 @@ const attendanceServe = async (req, res) => {
     
     const {subjects} = await studentModel.findOne({id: req.user.id})
 
-    for(let i of subjects){
-        if(i === subject) break;
-        return res.json({message: "User is not register for this subject"})
-    }
+
+   if (!subjects.includes(subject)) {
+    return res.status(401).json({ message: "User is not registered for this subject" });
+}
+
     
     if(key !== code){
         return res.status(400).json({message:"Invalid QR Code or Expired QR Code"});

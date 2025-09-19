@@ -68,6 +68,7 @@ const UserDashboard = () => {
             html5QrcodeScanner.clear();
             
             setIsLoading(true)
+            console.log(decodedText)
             const response = await attendClass(decodedText)
             setIsLoading(false)
             if(response.status === 200){

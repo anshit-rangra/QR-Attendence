@@ -86,9 +86,11 @@ const getClassAttendance = async (req, res) => {
   const subject = req.query.code || ""
   
 try {
-  const {_id} = await classModel.findOne({code: subject}) 
+  const klas = await classModel.findOne({code: subject}) 
+
+
  
-  const classData = await AttendanceModel.find({ref: _id})
+  const classData = await AttendanceModel.find({ref: klas._id})
 
   return res.json({classData: classData})
 } catch (error) {
