@@ -12,5 +12,7 @@ router.route("/teacher/register").post(authControllers.registerTeacher);
 
 router.route("/create/class").post(adminControllers.createClass)
 
+router.route("/get/information").get(adminControllers.getInfo)
+
 
 module.exports = router;

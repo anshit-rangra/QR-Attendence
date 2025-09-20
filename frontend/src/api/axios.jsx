@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://qr-attendence-by5k.onrender.com/api/',
+    baseURL: 'http://localhost:3002/api/',
     withCredentials: true,
     headers: { "Content-Type": "application/json" }
 })
@@ -38,7 +38,6 @@ export const registerTeacher = async (data) => {
         return response.data
     }
 }
-
 
 
 export const getClass = async (subject) => {
@@ -129,5 +128,15 @@ export const createSubject = async (data) => {
     } catch (error) {
         const {response} = error;
         return response
+    }
+}
+
+export const getCounts = async () => {
+    try {
+        const response = await instance.get('/admin/get/information', {} , {withCredentials: true})
+        return response;
+    } catch (error) {
+        const {response} = error;
+        return response;
     }
 }

@@ -24,7 +24,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loader />}>
-      {  (window.location.pathname === "/login" || window.location.pathname === "/register" || window.location.pathname === "/admin/login") ? "" : <LogoutButton /> }
+      {  (token && role) ? <LogoutButton /> : "" }
         <Routes>
           <Route path="/login" element={ token ? <Navigate to={'/student'} /> : <UserLogin /> } /> ✅
 

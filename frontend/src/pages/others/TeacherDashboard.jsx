@@ -169,6 +169,17 @@ const TeacherDashboard = () => {
                   <p>Attendance Rate</p>
                 </div>
               </div>
+
+              <div className={styles.statCard}>
+                <div className={`${styles.statIcon} ${styles.total}`}>
+                  <FaUserCheck />
+                </div>
+                <div className={styles.statInfo}>
+                  <h3>{totalStudents}</h3>
+                  <p>Total Student</p>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>

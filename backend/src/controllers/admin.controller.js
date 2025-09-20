@@ -1,4 +1,6 @@
 const ClassModel = require("../models/class.model");
+const studentModel = require("../models/student.model");
+const TeacherModel = require("../models/teacher.model");
 
 
 const createClass = async (req, res) => {
@@ -21,6 +23,22 @@ const createClass = async (req, res) => {
     }
 }
 
+const getInfo = async (req, res) => {
+    try {
+        const [students, teachers, subjects] = await Promise.all([
+            studentModel.countDocuments(),
+            TeacherModel.countDocuments(),
+            ClassModel.countDocuments()
+        ])
+
+        res.status(200).json({message:"Detailed fetch sucessfully !", students, teachers, subjects})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: "Internal Server Error"})
+    }
+}
+
 module.exports = {
-    createClass
+    createClass,
+    getInfo
 }
