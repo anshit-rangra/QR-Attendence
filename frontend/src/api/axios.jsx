@@ -53,7 +53,9 @@ export const getClass = async (subject) => {
 export const getUser = async () => {
     try {
         const response = await instance.get("/auth/getuser",{}, {withCredentials: true})
-        return response
+        
+        return response;
+
     } catch (error) {
         const {response} = error;
         return response
@@ -134,6 +136,16 @@ export const createSubject = async (data) => {
 export const getCounts = async () => {
     try {
         const response = await instance.get('/admin/get/information', {} , {withCredentials: true})
+        return response;
+    } catch (error) {
+        const {response} = error;
+        return response;
+    }
+}
+
+export const getSubjects = async (id, subjects) => {
+    try {
+        const response = await instance.get(`/mutual/getsubjects/${id}?subjects=${subjects}`)
         return response;
     } catch (error) {
         const {response} = error;

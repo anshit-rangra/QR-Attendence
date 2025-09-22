@@ -7,6 +7,7 @@ const { teacherMiddleware , authMiddleware, adminMiddleware } = require("./middl
 const studentRoutes = require("./routes/student.routes");
 const adminRoutes = require("./routes/admin.routes")
 const path = require("path")
+const mutualRoutes = require("./routes/mutual.routes")
 
 
 
@@ -25,6 +26,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/student", authMiddleware, studentRoutes)
 app.use("/api/teacher", teacherMiddleware, teacherRoutes)
 app.use("/api/admin/" ,adminMiddleware, adminRoutes)
+app.use("/api/mutual/",authMiddleware, mutualRoutes)
 
 app.get("*name", (req, res) => {
     res.sendFile(path.join(__dirname , "../public/index.html"))

@@ -11,7 +11,9 @@ const getUser = async (req, res) => {
   const tokenData = jwt.verify(token, process.env.JWT_SECRET)
   
   try {
-    const user = await studentModel.findOne({_id : tokenData._id}) || await TeacherModel.findOne({_id : tokenData._id}) || await adminModel.findOne({_id : tokenData._id})
+    const user = await studentModel.findOne({ _id: tokenData._id })
+      || await TeacherModel.findOne({ _id: tokenData._id }).populate('boss') 
+      || await adminModel.findOne({ _id: tokenData._id });
 
     
     res.json({user})
@@ -96,7 +98,7 @@ const registerTeacher = async (req, res) => {
 
 
 const registerAdmin = async (req, res) => {
-  const { email, center, phone, password, key} = req.body
+  const { email, center, phone, password,  key} = req.body
   if(key !== process.env.ADMIN_LOGIN_KEY){
     return res.status(401).json({message: "Invalid Key"})
   }
@@ -109,7 +111,7 @@ const registerAdmin = async (req, res) => {
     }
 
     const hashPassword = await bcrypt.hash(password, 10)
-    const admin = await adminModel.create({email, center, phone, password:hashPassword})
+    const admin = await adminModel.create({email, center, phone, password:hashPassword, role:"admin"})
 
     const token = jwt.sign({_id: admin._id , email: admin.email, center: admin.center, role:"admin" }, process.env.JWT_SECRET, { expiresIn: "30d" });
 

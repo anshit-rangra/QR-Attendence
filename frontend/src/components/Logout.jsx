@@ -1,14 +1,16 @@
-import { FiLogOut } from 'react-icons/fi';
+import { IoHomeOutline } from "react-icons/io5";
+import { FaRegUser } from "react-icons/fa";
 import Cookies from 'js-cookie'
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
+  const navigate = useNavigate()
+  const location = useLocation();
+
   const handleLogout = () => {
-    console.log('Logging out...');
-    Cookies.remove("admin")
-    Cookies.remove("attendanceToken")
-    Cookies.remove("role")
-    window.location.reload()
-    // Add your logout logic here
+    
+    const to = location.pathname === '/user/profile' ? '/' : '/user/profile';
+    navigate(to);
   };
 
   
@@ -34,7 +36,7 @@ const LogoutButton = () => {
           e.target.style.transform = 'scale(1.05)';
         }}
       >
-        <FiLogOut style={iconStyle} />
+      {location.pathname === '/user/profile' ?  <IoHomeOutline style={iconStyle} /> : <FaRegUser />}
       </button>
     </div>
   );
