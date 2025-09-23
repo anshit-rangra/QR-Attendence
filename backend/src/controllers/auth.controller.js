@@ -11,7 +11,7 @@ const getUser = async (req, res) => {
   const tokenData = jwt.verify(token, process.env.JWT_SECRET)
   
   try {
-    const user = await studentModel.findOne({ _id: tokenData._id })
+    const user = await studentModel.findOne({ _id: tokenData._id }).populate("boss")
       || await TeacherModel.findOne({ _id: tokenData._id }).populate('boss') 
       || await adminModel.findOne({ _id: tokenData._id });
 
@@ -40,6 +40,7 @@ const registerStudent = async (req, res) => {
       course,
       subjects,
       password: hashPassword,
+      boss: req.user._id
     });
 
     return res.status(201).json({message:"User registered successfully"});

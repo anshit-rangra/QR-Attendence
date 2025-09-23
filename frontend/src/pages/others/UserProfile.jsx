@@ -159,7 +159,9 @@ const UserProfile = () => {
     );
 
     // Who is the admin for this lookup?
-    const adminId = role === 'admin' ? user?._id : "68caa23ae2a5edb15b4ba51c";
+
+    let adminId = role === 'admin' ? user?._id : user.boss._id;
+    
 
     if (!codesToFetch.length || !adminId) {
       setSubjectsLoading(false);
@@ -247,11 +249,11 @@ const UserProfile = () => {
         {hasBoss && (
           <>
             <div className={styles.detailItem}>
-              <span className={styles.label}>Boss Email</span>
+              <span className={styles.label}>Center Email</span>
               <span className={styles.value}>{bossEmail}</span>
             </div>
             <div className={styles.detailItem}>
-              <span className={styles.label}>Boss Phone</span>
+              <span className={styles.label}>Center Phone</span>
               <span className={styles.value}>{bossPhone}</span>
             </div>
           </>
