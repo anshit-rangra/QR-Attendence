@@ -86,4 +86,6 @@ Password: anshit
 
 🔗 **Live Demo:** [https://qr-attendence-by5k.onrender.com](https://qr-attendence-by5k.onrender.com)
 
+**Note:** Sometimes server was off, due to free hosting. Keep trying reloading the website.
+
 ---
